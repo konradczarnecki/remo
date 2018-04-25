@@ -4,12 +4,18 @@
   "main": "dist/index.js",
   "license": "CC0-1.0",
   "scripts": {
-    "build-server": "tslint --project . && tsc",
-    "watch-server": "cross-env NODE_ENV=development nodemon --watch 'src/**/*' -e ts,tsx --exec ts-node src/server/server.ts"
+    "build": "tslint --project . && tsc",
+    "watch": "nodemon -e ts -w ./src -x npm run watch:serve",
+    "watch:serve": "ts-node --inspect src/server.ts"
   },
   "devDependencies": {
+    "@types/crypto-js": "3.1.39",
     "@types/koa": "2.0.39",
     "@types/koa-router": "7.0.23",
+    "@types/koa-route": "3.2.3",
+    "@types/koa-websocket": "2.1.2",
+    "@types/mongodb": "3.0.15",
+    "@types/mongoose": "5.0.10",
     "cross-env": "5.0.5",
     "nodemon": "1.12.0",
     "ts-node": "3.3.0",
@@ -17,8 +23,13 @@
     "typescript": "2.5.2"
   },
   "dependencies": {
+    "crypto-js": "3.1.9-1",
+    "i": "0.3.6",
     "koa": "2.3.0",
+    "koa-route": "3.2.0",
     "koa-router": "7.2.1",
-    "mongoose": "5.0.15"
+    "koa-websocket": "4.1.0",
+    "mongoose": "5.0.15",
+    "ts-md5": "1.2.4"
   }
 }

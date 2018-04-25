@@ -1,4 +1,0 @@
-class a {
-    abc: string;
-
-}
