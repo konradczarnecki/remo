@@ -1,3 +1,4 @@
+import * as Koa from 'koa';
 const websockify = require('koa-websocket');
 import * as Router from 'koa-router';
 
