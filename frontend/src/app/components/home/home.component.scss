@@ -1,0 +1,41 @@
+@import "sx-style";
+
+#wrapper {
+  @include size100v;
+  @include absolute-start;
+  color: $font-clr;
+  font-size: 30px;
+
+  @include grid-center(30% 1fr, 1fr 30%);
+  grid-template-areas: "video-form playarea" "admin playarea";
+}
+
+#newVideoForm {
+  @include size(400px, 100px);
+  @include border;
+  grid-area: video-form;
+}
+
+#linkInput {
+  @include size(350px 50px);
+}
+
+#playarea {
+  @include self-stretch;
+  grid-area: playarea;
+
+  @include grid-stretch(25% 1fr);
+  grid-template-areas: "player" "playlist";
+}
+
+app-player {
+  grid-area: player;
+}
+
+app-playlist {
+  grid-area: playlist;
+}
+
+
+
+

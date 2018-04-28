@@ -32,6 +32,7 @@ class PlaylistService {
     playlist.tracks.push(track);
     return playlist.save();
   }
+
 }
 
 export default new PlaylistService();

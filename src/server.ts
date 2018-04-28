@@ -1,15 +1,20 @@
 import * as Koa from 'koa';
 import * as mongoose from 'mongoose';
 
+const websockify= require('koa-websocket');
+
 import { config } from './config';
 import { logger } from './util/logging';
-import { routes } from './routes/routes';
+import httpRoutes from './routes/http';
+import websocketRoutes from './routes/websocket';
 
 mongoose.connect('mongodb://localhost:27017/remotube');
 
-const app = new Koa();
+const app = websockify(new Koa());
+
 app.use(logger);
-app.use(routes);
+app.use(httpRoutes);
+app.ws.use(websocketRoutes);
 
 app.listen(config.port);
 

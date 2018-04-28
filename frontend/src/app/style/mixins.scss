@@ -1,0 +1,130 @@
+@import '@material/elevation/mdc-elevation';
+@import "vars";
+
+@mixin grid-rows($rows, $gap: 0){
+  display: grid;
+  grid-template-rows: $rows;
+  grid-row-gap: $gap;
+}
+
+@mixin grid-columns($columns, $gap: 0){
+  display: grid;
+  grid-template-columns: $columns;
+  grid-column-gap: $gap;
+}
+
+@mixin grid($rows, $columns, $gap: 0){
+  @include grid-rows($rows, $gap);
+  @include grid-columns($columns, $gap);
+}
+
+@mixin grid-pos($row-line: null, $column-line: null){
+  grid-row: $row-line;
+  grid-column: $column-line;
+}
+
+@mixin grid-format($format, $rows: null, $columns: null, $gap: 0){
+  display: grid;
+
+  @if $columns != null {
+    @include grid-columns($columns, $gap);
+    justify-items: $format;
+  }
+  @if $rows != null {
+    @include grid-rows($rows, $gap);
+    align-items: $format;
+  }
+  @if $rows == null and $columns == null {
+    align-items: $format;
+    justify-items: $format;
+  }
+}
+
+@mixin grid-stretch($rows: 1fr, $columns: 1fr, $gap: 0){
+  @include grid-format(stretch, $rows, $columns, $gap);
+}
+
+@mixin grid-center($rows: 1fr, $columns: 1fr, $gap: 0){
+  @include grid-format(center, $rows, $columns, $gap);
+}
+
+@mixin self-center($justify: true, $align: true){
+  @if $justify {
+    justify-self: center;
+  }
+  @if $align {
+    align-self: center;
+  }
+}
+
+@mixin self-stretch($justify: true, $align: true){
+  @if $justify {
+    justify-self: stretch;
+  }
+  @if $align {
+    align-self: stretch;
+  }
+}
+
+@mixin size($dim1, $dim2: -1){
+  @if $dim2 == -1 {
+    width: $dim1;
+    height: $dim1;
+  }
+  @else {
+    width: $dim1;
+    height: $dim2;
+  }
+}
+
+@mixin size100p(){
+  @include size(100%, 100%);
+}
+
+@mixin size100v(){
+  @include size(100vw, 100vh);
+}
+
+@mixin absolute($top, $right, $bottom, $left){
+  position: absolute;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+
+@mixin absolute-center(){
+  @include absolute(0, 0, 0, 0);
+  margin: auto;
+}
+
+@mixin absolute-start() {
+  @include absolute(0, null, null, 0);
+}
+
+@mixin fullscreen(){
+  @include size(100vw, 100vh);
+  @include absolute(0, null, null, 0);
+}
+
+@mixin pick-up($width, $height, $pickup: 2px){
+  width: $width + $pickup;
+  height: $height + $pickup;
+  transform: translateY( -$pickup / 2);
+}
+
+@mixin border($color: black, $width: 1px){
+  border: solid $width $color;
+}
+
+@mixin font($size: 15, $color: $font-clr, $alt: false) {
+  font-family: $font;
+  font-size: $size;
+  color: $color;
+
+  @if $alt {
+    font-family: $font2;
+  }
+}
+
+
