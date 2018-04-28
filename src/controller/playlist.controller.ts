@@ -11,4 +11,9 @@ async function addTrack(ctx: Koa.Context) {
   ctx.body = await playlistService.pushToPlaylist(playlistId, track);
 }
 
-export default { newPlaylist, addTrack };
+async function getPlaylist(ctx: Koa.Context) {
+  const { id } = ctx.query;
+  ctx.body = await playlistService.getPlaylist(id);
+}
+
+export default { newPlaylist, addTrack, getPlaylist };

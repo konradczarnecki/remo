@@ -1,2 +1,2 @@
-export {IPlaylist} from './playlist.model';
+export {Playlist} from './playlist.model';
 

@@ -8,7 +8,7 @@ import {User, Response, Tokens} from '../../model/index';
 import {environment as env} from '../../../environments/environment';
 import {of} from 'rxjs/observable/of';
 import {Router} from '@angular/router';
-import * as RouterActions from '../../store/actions/router';
+import * as RouterActions from '../../store/actions/router.actions';
 import {LoginAction, loginFailure, loginSuccess, USER_LOGIN_SUBMIT, USER_LOGIN_SUCCESS} from './store';
 
 

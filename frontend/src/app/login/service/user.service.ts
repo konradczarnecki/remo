@@ -5,7 +5,7 @@ import {CanActivate, Routes} from '@angular/router';
 import {User} from '../../model/index';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {loginSubmit} from '../store/store';
-import * as RouterActions from '../../store/actions/router';
+import * as RouterActions from '../../store/actions/router.actions';
 import {selectUser} from '../store/store';
 
 @Injectable()

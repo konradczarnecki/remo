@@ -1,5 +1,5 @@
 import * as ws from 'ws';
-import {IPlaylist} from '../model';
+import {Playlist} from '../model';
 import {Message} from '../model/message.model';
 
 class WebsocketService {
@@ -12,11 +12,11 @@ class WebsocketService {
 
   registerListener(playlistId: string, websocket: ws) {
 
-    if (this.listeners.has(playlistId)) this.listeners.get(playlistId).push(ws);
-    else this.listeners.set(playlistId, [ws]);
+    if (this.listeners.has(playlistId)) this.listeners.get(playlistId).push(websocket);
+    else this.listeners.set(playlistId, [websocket]);
   }
 
-  sendUpdate(playlist: IPlaylist) {
+  sendUpdate(playlist: Playlist) {
 
     const message: Message = {
       type: 'playlist',

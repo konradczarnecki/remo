@@ -17,9 +17,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const socket = new WebSocket('ws://localhost:3000/register-listener');
-    socket.onopen = () => socket.send(JSON.stringify({dupa: 'abc'}));
-    socket.onmessage = (msg) => console.log(msg);
   }
 
 
