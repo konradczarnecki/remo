@@ -33,8 +33,10 @@ class PlaylistService {
     return new PlaylistModel(playlist).save();
   }
 
-  getPlaylist(id: string) {
-    return Playlist.findById(id);
+  async getPlaylist(id: string) {
+    const playlist: Playlist = await Playlist.findById(id);
+    if (playlist.secretId !== id) playlist.secretId = undefined;
+    return playlist;
   }
 
 }

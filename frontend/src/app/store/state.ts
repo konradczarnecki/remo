@@ -1,8 +1,8 @@
-import {IPlaylist} from '../model';
+import {Playlist} from '../model';
 
 export interface AppState {
   // route: string;
-  playlist: IPlaylist;
+  playlist: Playlist;
 }
 
 

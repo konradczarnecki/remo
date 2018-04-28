@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {IPlaylist} from '../../model';
+import {Playlist} from '../../model';
 
 export const FETCH_PLAYLIST_SUBMIT = 'FETCH_PLAYLIST_SUBMIT';
 export const FETCH_PLAYLIST_SUCCESS = 'FETCH_PLAYLIST_SUCCESS';
@@ -8,7 +8,7 @@ export const FETCH_PLAYLIST_FAILURE = 'FETCH_PLAYLIST_FAILURE';
 export class FetchPlaylist implements Action {
 
   id: string;
-  playlist: IPlaylist;
+  playlist: Playlist;
   error: any;
 
   constructor(public type: string) {}
@@ -19,7 +19,7 @@ export class FetchPlaylist implements Action {
     return action;
   }
 
-  static success(playlist: IPlaylist, id: string) {
+  static success(playlist: Playlist, id: string) {
     const action = new FetchPlaylist(FETCH_PLAYLIST_SUCCESS);
     action.playlist = playlist;
     action.id = id;

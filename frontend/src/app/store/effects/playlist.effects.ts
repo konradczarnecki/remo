@@ -4,8 +4,10 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Action} from '@ngrx/store';
 import {FETCH_PLAYLIST_SUBMIT, FetchPlaylist} from '../actions/playlist.actions';
-import {mergeMap} from 'rxjs/operators';
+import {catchError, map, mergeMap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
+import {of} from 'rxjs/observable/of';
+import {Playlist} from "../../../../../src/model";
 
 @Injectable()
 export class PlaylistEffects {
@@ -15,11 +17,16 @@ export class PlaylistEffects {
     private http: HttpClient
   ) {}
 
-  checkLink$: Observable<Action> = this.actions$.pipe(
+  @Effect()
+  fetchPlaylist$: Observable<Action> = this.actions$.pipe(
+
     ofType(FETCH_PLAYLIST_SUBMIT),
     mergeMap((action: FetchPlaylist) =>
-      this.http.get(environment.apiUrl)
+
+      this.http.get<Playlist>(environment.apiUrl + '/get-playlist?id' + action.id).pipe(
+        map(playlist => FetchPlaylist.success(playlist, action.id)),
+        catchError(err => of(FetchPlaylist.failure(err)))
+      )
     )
   );
-
 }

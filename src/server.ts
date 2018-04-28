@@ -1,7 +1,8 @@
 import * as Koa from 'koa';
 import * as mongoose from 'mongoose';
 
-const websockify= require('koa-websocket');
+const websockify = require('koa-websocket');
+const cors = require('@koa/cors');
 
 import { config } from './config';
 import { logger } from './util/logging';
@@ -12,6 +13,7 @@ mongoose.connect('mongodb://localhost:27017/remotube');
 
 const app = websockify(new Koa());
 
+app.use(cors());
 app.use(logger);
 app.use(httpRoutes);
 app.ws.use(websocketRoutes);
