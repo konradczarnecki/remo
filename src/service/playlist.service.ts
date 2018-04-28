@@ -1,4 +1,5 @@
 import {Playlist, PlaylistModel} from '../model/playlist.model';
+import websocketService from './websocket.service';
 
 class PlaylistService {
 
@@ -24,13 +25,18 @@ class PlaylistService {
     return playlist.save();
   }
 
-  pushToPlaylist(playlistId: string, track: string): Promise<boolean | Playlist> {
+  pushToPlaylist(playlistId: string, track: string): any {
 
     const playlist = this.playlists.find(playlist => playlist.publicId == playlistId);
     if (!playlist) return Promise.resolve(false);
 
     playlist.tracks.push(track);
-    return new PlaylistModel(playlist).save();
+    websocketService.sendUpdate(playlist);
+
+    return PlaylistModel.update({
+      publicId: playlist.publicId
+    },
+      playlist).exec();
   }
 
   async getPlaylist(id: string) {
@@ -38,7 +44,6 @@ class PlaylistService {
     if (playlist.secretId !== id) playlist.secretId = undefined;
     return playlist;
   }
-
 }
 
 export default new PlaylistService();

@@ -25,11 +25,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.route.paramMap.subscribe((params: ParamMap) =>
       this.store.dispatch(FetchPlaylist.submit(params.get('id')))
     );
-
-    this.store.select('playlist').subscribe(playlist => console.log(playlist));
-    // const socket = new WebSocket('ws://localhost:3000/register-listener');
-    // socket.onopen = () => socket.send(JSON.stringify({dupa: 'abc'}));
-    // socket.onmessage = (msg) => console.log(msg);
   }
 
   ngAfterViewInit(): void {

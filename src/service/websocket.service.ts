@@ -24,7 +24,7 @@ class WebsocketService {
     };
 
     const listeners = this.listeners.get(playlist.publicId);
-    for (let listener of listeners) listener.send(message);
+    for (let listener of listeners) listener.send(JSON.stringify(message));
   }
 }
 

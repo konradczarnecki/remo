@@ -3,11 +3,17 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Action} from '@ngrx/store';
-import {FETCH_PLAYLIST_SUBMIT, FetchPlaylist} from '../actions/playlist.actions';
+import { fromPromise } from 'rxjs/observable/fromPromise';
+import {
+  FETCH_PLAYLIST_SUBMIT,
+  FETCH_PLAYLIST_SUCCESS,
+  FetchPlaylist,
+  UpdatePlaylist
+} from '../actions/playlist.actions';
 import {catchError, map, mergeMap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {of} from 'rxjs/observable/of';
-import {Playlist} from "../../../../../src/model";
+import {Playlist, Message} from '../../model';
 
 @Injectable()
 export class PlaylistEffects {
@@ -28,5 +34,29 @@ export class PlaylistEffects {
         catchError(err => of(FetchPlaylist.failure(err)))
       )
     )
+  );
+
+  @Effect()
+  register$: Observable<Action> = this.actions$.pipe(
+
+    ofType(FETCH_PLAYLIST_SUCCESS),
+    mergeMap((action: FetchPlaylist) => {
+
+      const socket = new WebSocket('ws://localhost:3000/register-listener');
+
+      const registerMsg: Message = {
+        type : 'register',
+        payload : action.id
+      };
+
+      socket.onopen = () => socket.send(JSON.stringify(registerMsg));
+
+      return Observable.create(obs => {
+        socket.onmessage = msg => {
+          const message: Message = JSON.parse(msg.data);
+          obs.next(UpdatePlaylist.action(<Playlist> message.payload));
+        };
+      });
+    })
   );
 }

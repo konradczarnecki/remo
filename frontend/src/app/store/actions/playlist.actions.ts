@@ -32,3 +32,16 @@ export class FetchPlaylist implements Action {
     return action;
   }
 }
+
+export const UPDATE_PLAYLIST = 'UPDATE_PLAYLIST';
+
+export class UpdatePlaylist implements Action {
+  readonly type = UPDATE_PLAYLIST;
+  playlist: Playlist;
+
+  static action(playlist: Playlist) {
+    const action = new UpdatePlaylist();
+    action.playlist = playlist;
+    return action;
+  }
+}

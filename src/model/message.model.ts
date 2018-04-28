@@ -1,6 +1,6 @@
-import {IPlaylist} from './playlist.model';
+import {Playlist} from './playlist.model';
 
 export interface Message {
   type: 'register' | 'playlist';
-  payload: string | IPlaylist;
+  payload: string | Playlist;
 }

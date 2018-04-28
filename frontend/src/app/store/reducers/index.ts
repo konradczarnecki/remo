@@ -1,5 +1,6 @@
-import {playlistReducer} from './playlist.reducer';
+import {playlistReducer, isAdmin} from './playlist.reducer';
 
 export default {
-  playlist: playlistReducer
+  playlist: playlistReducer,
+  isAdmin: isAdmin
 };
