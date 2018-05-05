@@ -23,8 +23,9 @@
 #playarea {
   @include self-stretch;
   grid-area: playarea;
+  overflow: hidden;
 
-  @include grid-stretch(25% 1fr);
+  @include grid-stretch(30% 1fr);
   grid-template-areas: "player" "playlist";
 }
 

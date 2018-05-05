@@ -10,6 +10,7 @@ class WebsocketService {
     this.listeners = new Map();
   }
 
+
   registerListener(playlistId: string, websocket: ws) {
 
     if (this.listeners.has(playlistId)) this.listeners.get(playlistId).push(websocket);
@@ -24,7 +25,9 @@ class WebsocketService {
     };
 
     const listeners = this.listeners.get(playlist.publicId);
-    for (let listener of listeners) listener.send(JSON.stringify(message));
+    for (let listener of listeners) {
+      if(listener.readyState == listener.OPEN) listener.send(JSON.stringify(message));
+    }
   }
 }
 

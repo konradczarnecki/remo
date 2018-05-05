@@ -1,5 +1,5 @@
 import {Md5} from 'ts-md5/dist/md5';
-import {arrayProp, ModelType, pre, prop, staticMethod, Typegoose} from 'typegoose';
+import {arrayProp, instanceMethod, ModelType, pre, prop, staticMethod, Typegoose} from 'typegoose';
 
 @pre<Playlist>('save', function(next) {
   const getHash = (salt: string) =>
@@ -22,9 +22,30 @@ export class Playlist extends Typegoose {
   @prop() currentTrack: number;
   @prop() active: boolean;
 
+  @instanceMethod
+  nextTrack() {
+    this.currentTrack++;
+  }
+
+  @instanceMethod
+  pushTrack(track: string): void {
+    this.tracks.push(track);
+  }
+
+  @instanceMethod
+  forceTrack(track: string): void {
+    this.tracks.splice(this.currentTrack + 1, 0, track);
+    this.currentTrack++;
+  }
+
   @staticMethod
-  static findById(id: string) {
-    return PlaylistModel.findOne({ $or : [{ publicId : id}, { secretId : id}] }).exec();
+  static findById(id: string): Promise<Playlist> {
+    return <Promise<Playlist>> PlaylistModel.findOne({ $or : [{ publicId : id}, { secretId : id}] }).exec();
+  }
+
+  @staticMethod
+  static updateByPublicId(playlist: Playlist): Promise<Playlist> {
+    return <Promise<Playlist>> PlaylistModel.findOneAndUpdate({ publicId: playlist.publicId }, playlist).exec();
   }
 }
 

@@ -2,19 +2,20 @@ import {Playlist} from '../../model';
 import {
   FETCH_PLAYLIST_FAILURE,
   FETCH_PLAYLIST_SUCCESS,
-  FetchPlaylist, UPDATE_PLAYLIST,
-  UpdatePlaylist
+  FetchPlaylistAction, UPDATE_PLAYLIST,
+  UpdatePlaylistAction
 } from '../actions/playlist.actions';
 
-function playlistReducer(state: Playlist = null, action: FetchPlaylist | UpdatePlaylist): Playlist {
+function playlistReducer(state: Playlist = null, action: FetchPlaylistAction | UpdatePlaylistAction): Playlist {
 
   switch (action.type) {
 
     case FETCH_PLAYLIST_SUCCESS:
+      console.log(action.playlist);
       return action.playlist;
 
     case FETCH_PLAYLIST_FAILURE:
-      console.log((<FetchPlaylist> action).error);
+      console.log((<FetchPlaylistAction> action).error);
       return state;
 
     case UPDATE_PLAYLIST:
@@ -26,7 +27,7 @@ function playlistReducer(state: Playlist = null, action: FetchPlaylist | UpdateP
   }
 }
 
-function isAdmin(state: boolean = false, action: FetchPlaylist): boolean {
+function isAdmin(state: boolean = false, action: FetchPlaylistAction): boolean {
 
   if (action.type === FETCH_PLAYLIST_SUCCESS)
     return action.id === action.playlist.secretId;

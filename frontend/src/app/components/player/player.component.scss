@@ -1,0 +1,10 @@
+@import "sx-style";
+
+#wrapper {
+  @include size100p;
+}
+
+iframe {
+  @include size100p;
+  display: block;
+}

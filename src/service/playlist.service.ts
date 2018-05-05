@@ -25,23 +25,38 @@ class PlaylistService {
     return playlist.save();
   }
 
-  pushToPlaylist(playlistId: string, track: string): any {
+  private playlistAction(action: string, playlistId: string, track?: string): any  {
 
-    const playlist = this.playlists.find(playlist => playlist.publicId == playlistId);
+    const playlist: Playlist = this.playlists.find(playlist => playlist.publicId == playlistId);
     if (!playlist) return Promise.resolve(false);
 
-    playlist.tracks.push(track);
-    websocketService.sendUpdate(playlist);
+    switch (action) {
+      case 'pushTrack': playlist.pushTrack(track); break;
+      case 'forceTrack': playlist.forceTrack(track); break;
+      case 'nextTrack': playlist.nextTrack(); break;
+    }
 
-    return PlaylistModel.update({
-      publicId: playlist.publicId
-    },
-      playlist).exec();
+    websocketService.sendUpdate(playlist);
+    return Playlist.updateByPublicId(playlist);
+  }
+
+  pushToPlaylist(playlistId: string, track: string): Promise<Playlist> {
+    return this.playlistAction('pushTrack', playlistId, track);
+  }
+
+  forceToPlaylist(playlistId: string, track: string): Promise<Playlist> {
+    return this.playlistAction('forceTrack', playlistId, track);
+  }
+
+  nextTrack(playlistId: string): Promise<Playlist> {
+    return this.playlistAction('nextTrack', playlistId);
   }
 
   async getPlaylist(id: string) {
-    const playlist: Playlist = await Playlist.findById(id);
-    if (playlist.secretId !== id) playlist.secretId = undefined;
+    let playlist: Playlist = await Playlist.findById(id);
+    if (!playlist) playlist = await this.addNewPlaylist();
+
+    if (id && playlist.secretId !== id) playlist.secretId = undefined;
     return playlist;
   }
 }

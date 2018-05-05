@@ -7,8 +7,8 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 import {
   FETCH_PLAYLIST_SUBMIT,
   FETCH_PLAYLIST_SUCCESS,
-  FetchPlaylist,
-  UpdatePlaylist
+  FetchPlaylistAction,
+  UpdatePlaylistAction
 } from '../actions/playlist.actions';
 import {catchError, map, mergeMap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
@@ -27,11 +27,11 @@ export class PlaylistEffects {
   fetchPlaylist$: Observable<Action> = this.actions$.pipe(
 
     ofType(FETCH_PLAYLIST_SUBMIT),
-    mergeMap((action: FetchPlaylist) =>
+    mergeMap((action: FetchPlaylistAction) =>
 
-      this.http.get<Playlist>(environment.apiUrl + '/get-playlist?id' + action.id).pipe(
-        map(playlist => FetchPlaylist.success(playlist, action.id)),
-        catchError(err => of(FetchPlaylist.failure(err)))
+      this.http.get<Playlist>(environment.apiUrl + '/get-playlist?id=' + action.id).pipe(
+        map(playlist => FetchPlaylistAction.success(playlist, action.id)),
+        catchError(err => of(FetchPlaylistAction.failure(err)))
       )
     )
   );
@@ -40,7 +40,7 @@ export class PlaylistEffects {
   register$: Observable<Action> = this.actions$.pipe(
 
     ofType(FETCH_PLAYLIST_SUCCESS),
-    mergeMap((action: FetchPlaylist) => {
+    mergeMap((action: FetchPlaylistAction) => {
 
       const socket = new WebSocket('ws://localhost:3000/register-listener');
 
@@ -52,9 +52,10 @@ export class PlaylistEffects {
       socket.onopen = () => socket.send(JSON.stringify(registerMsg));
 
       return Observable.create(obs => {
+
         socket.onmessage = msg => {
           const message: Message = JSON.parse(msg.data);
-          obs.next(UpdatePlaylist.action(<Playlist> message.payload));
+          obs.next(new UpdatePlaylistAction(<Playlist> message.payload));
         };
       });
     })

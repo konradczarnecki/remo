@@ -1,9 +1,9 @@
 import * as Koa from 'koa';
 import * as ws from 'ws';
-import {Message} from '../model/message.model';
+import {Message} from '../model';
+import {Playlist} from '../model';
 
 import websocketService from '../service/websocket.service';
-import {Playlist} from '../model';
 
 export interface WSContext extends Koa.Context {
   websocket: ws;
