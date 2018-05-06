@@ -4,9 +4,9 @@ import {AppComponent} from './app.component';
 
 import {FormsModule} from '@angular/forms';
 import {StoreModule} from '@ngrx/store';
-import rootReducer from './store/reducers';
+import {rootReducer} from './store';
 import {RouterModule} from '@angular/router';
-import {RouterEffects} from './store/effects/router.effects';
+import {RouterEffects} from './store/router/router.effects';
 import {HomeComponent} from './components/home/home.component';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
@@ -17,7 +17,7 @@ import {routes} from './routes';
 import { PlaylistComponent } from './components/playlist/playlist.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { PlayerComponent } from './components/player/player.component';
-import {PlaylistEffects} from "./store/effects/playlist.effects";
+import {PlaylistEffects} from './store/playlist/playlist.effects';
 
 @NgModule({
   declarations: [

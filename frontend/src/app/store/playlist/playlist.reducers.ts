@@ -1,12 +1,13 @@
-import {Playlist} from '../../model';
+import {Playlist} from '../../model/index';
 import {
   FETCH_PLAYLIST_FAILURE,
   FETCH_PLAYLIST_SUCCESS,
   FetchPlaylistAction, UPDATE_PLAYLIST,
   UpdatePlaylistAction
-} from '../actions/playlist.actions';
+} from './playlist.actions';
+import {ActionReducer} from '@ngrx/store';
 
-function playlistReducer(state: Playlist = null, action: FetchPlaylistAction | UpdatePlaylistAction): Playlist {
+export const playlistReducer: ActionReducer<Playlist> = (state: Playlist = null, action: FetchPlaylistAction | UpdatePlaylistAction) => {
 
   switch (action.type) {
 
@@ -25,14 +26,12 @@ function playlistReducer(state: Playlist = null, action: FetchPlaylistAction | U
     default:
       return state;
   }
-}
+};
 
-function isAdmin(state: boolean = false, action: FetchPlaylistAction): boolean {
+export const isAdmin: ActionReducer<boolean> = (state: boolean = false, action: FetchPlaylistAction) => {
 
   if (action.type === FETCH_PLAYLIST_SUCCESS)
     return action.id === action.playlist.secretId;
 
   return state;
-}
-
-export { playlistReducer, isAdmin };
+};

@@ -1,9 +1,9 @@
 import {Action} from '@ngrx/store';
-import {Playlist} from '../../model';
+import {Playlist} from '../../model/index';
 
-export const FETCH_PLAYLIST_SUBMIT = 'FETCH_PLAYLIST_SUBMIT';
-export const FETCH_PLAYLIST_SUCCESS = 'FETCH_PLAYLIST_SUCCESS';
-export const FETCH_PLAYLIST_FAILURE = 'FETCH_PLAYLIST_FAILURE';
+export const FETCH_PLAYLIST_SUBMIT = '[Fetch playlist] Submit';
+export const FETCH_PLAYLIST_SUCCESS = '[Fetch playlist] Success';
+export const FETCH_PLAYLIST_FAILURE = '[Fetch playlist] Failure';
 
 export class FetchPlaylistAction implements Action {
 
@@ -33,7 +33,7 @@ export class FetchPlaylistAction implements Action {
   }
 }
 
-export const UPDATE_PLAYLIST = 'UPDATE_PLAYLIST';
+export const UPDATE_PLAYLIST = '[Update playlist]';
 
 export class UpdatePlaylistAction implements Action {
 
@@ -41,10 +41,27 @@ export class UpdatePlaylistAction implements Action {
   constructor(public playlist: Playlist) {}
 }
 
-export const PUSH_VIDEO = 'PUSH_VIDEO';
+export const PUSH_VIDEO_SUBMIT = '[Push video] Submit';
+export const PUSH_VIDEO_SUCCESS = '[Push video] Success';
+export const PUSH_VIDEO_FAILURE = '[Push video] Failure';
 
 export class PushVideoAction implements Action {
 
-  readonly type = PUSH_VIDEO;
-  constructor(public link: string) {}
+  id: string;
+
+  constructor(public type: string) {}
+
+  static submit(id: string) {
+    const action = new PushVideoAction(PUSH_VIDEO_SUBMIT);
+    action.id = id;
+    return action;
+  }
+
+  static success() {
+    return new PushVideoAction(PUSH_VIDEO_SUCCESS);
+  }
+
+  static failure() {
+    return new PushVideoAction(PUSH_VIDEO_FAILURE);
+  }
 }

@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, ParamMap} from '@angular/router';
-import {AppState} from '../../store/state';
+import {AppState} from '../../store';
 import {Store} from '@ngrx/store';
-import {FetchPlaylistAction, PushVideoAction} from '../../store/actions/playlist.actions';
+import {FetchPlaylistAction, PushVideoAction} from '../../store';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +28,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   pushVideo() {
-    this.store.dispatch(new PushVideoAction(this.newVideoLink));
+
+    if (!this.newVideoLink) return;
+
+    const idIndex = this.newVideoLink.indexOf('v=') + 2;
+    const link = this.newVideoLink.substring(idIndex, idIndex + 11);
+
+    this.store.dispatch(PushVideoAction.submit(link));
   }
 
   ngAfterViewInit(): void {

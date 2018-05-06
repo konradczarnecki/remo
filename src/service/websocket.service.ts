@@ -1,6 +1,5 @@
 import * as ws from 'ws';
-import {Playlist} from '../model';
-import {Message} from '../model/message.model';
+import {Playlist, Message} from '../model';
 
 class WebsocketService {
 
@@ -9,7 +8,6 @@ class WebsocketService {
   constructor() {
     this.listeners = new Map();
   }
-
 
   registerListener(playlistId: string, websocket: ws) {
 
@@ -24,10 +22,15 @@ class WebsocketService {
       payload: playlist
     };
 
-    const listeners = this.listeners.get(playlist.publicId);
-    for (let listener of listeners) {
-      if(listener.readyState == listener.OPEN) listener.send(JSON.stringify(message));
-    }
+    const listeners = this.clearListeners(playlist.publicId);
+    listeners.forEach(listener => listener.send(JSON.stringify(message)));
+  }
+
+  clearListeners(publicId: string) {
+    let listeners = this.listeners.get(publicId);
+    listeners = listeners.filter(listener => listener.readyState == listener.OPEN);
+    this.listeners.set(publicId, listeners);
+    return listeners;
   }
 }
 

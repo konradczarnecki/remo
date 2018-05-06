@@ -9,11 +9,11 @@ import {
   FETCH_PLAYLIST_SUCCESS,
   FetchPlaylistAction,
   UpdatePlaylistAction
-} from '../actions/playlist.actions';
+} from './playlist.actions';
 import {catchError, map, mergeMap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {of} from 'rxjs/observable/of';
-import {Playlist, Message} from '../../model';
+import {Playlist, Message} from '../../model/index';
 
 @Injectable()
 export class PlaylistEffects {

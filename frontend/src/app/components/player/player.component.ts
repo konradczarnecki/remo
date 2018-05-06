@@ -1,10 +1,11 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {AppState} from '../../store/state';
+import {AppState} from '../../store';
 import {Store} from '@ngrx/store';
 import {Playlist} from '../../model';
 import {map} from 'rxjs/operators';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {selectPlaylist} from '../../store';
 
 @Component({
   selector: 'app-player',
@@ -15,14 +16,14 @@ export class PlayerComponent implements OnInit, AfterViewInit {
 
   @ViewChild('wrapper') wrapper: ElementRef;
 
-  link: Observable<SafeResourceUrl>;
+  link$: Observable<SafeResourceUrl>;
 
   constructor(
     private store: Store<AppState>,
     private sanitizer: DomSanitizer
   ) {
 
-    this.link = store.select('playlist').pipe(
+    this.link$ = store.select(selectPlaylist).pipe(
 
       map((playlist: Playlist) => {
 
@@ -36,7 +37,7 @@ export class PlayerComponent implements OnInit, AfterViewInit {
       map((link: string) => this.sanitizer.bypassSecurityTrustResourceUrl(link))
     );
 
-    this.link.subscribe(console.log);
+    this.link$.subscribe(console.log);
   }
 
   ngOnInit() {

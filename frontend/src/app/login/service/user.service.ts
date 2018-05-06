@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {AppState} from '../../store/state';
+import {AppState} from '../../store/index';
 import {select, Store} from '@ngrx/store';
 import {CanActivate, Routes} from '@angular/router';
 import {User} from '../../model/index';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {loginSubmit} from '../store/store';
-import * as RouterActions from '../../store/actions/router.actions';
+import * as RouterActions from '../../store/router/router.actions';
 import {selectUser} from '../store/store';
 
 @Injectable()

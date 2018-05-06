@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {Store} from '@ngrx/store';
-import {AppState} from './store/state';
+import {AppState} from './store/index';
 
 @Component({
   selector: 'app-root',
