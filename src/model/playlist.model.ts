@@ -1,5 +1,6 @@
 import {Md5} from 'ts-md5/dist/md5';
-import {arrayProp, instanceMethod, ModelType, pre, prop, staticMethod, Typegoose} from 'typegoose';
+import { arrayProp, instanceMethod, ModelType, pre, prop, Ref, staticMethod, Typegoose } from 'typegoose';
+import { Track } from './track.model';
 
 @pre<Playlist>('save', function(next) {
   const getHash = (salt: string) =>
@@ -7,7 +8,7 @@ import {arrayProp, instanceMethod, ModelType, pre, prop, staticMethod, Typegoose
 
   if (!this.publicId) {
     this.publicId = getHash(this._id);
-    this.secretId = getHash(this.publicId)
+    this.secretId = getHash(this.publicId);
   }
 
   this.active = true;
@@ -17,7 +18,7 @@ export class Playlist extends Typegoose {
   @prop() publicId: string;
   @prop() secretId: string;
   @prop() admin?: string;
-  @arrayProp({ items : String }) tracks: string[];
+  @arrayProp({ itemsRef : Track }) tracks: Array<Ref<Track>>;
   @prop() isPlaying: boolean;
   @prop() currentTrack: number;
   @prop() active: boolean;
@@ -28,27 +29,30 @@ export class Playlist extends Typegoose {
   }
 
   @instanceMethod
-  pushTrack(track: string): void {
+  pushTrack(track: Track): void {
     this.tracks.push(track);
   }
 
   @instanceMethod
-  forceTrack(track: string): void {
+  forceTrack(track: Track): void {
     this.tracks.splice(this.currentTrack + 1, 0, track);
     this.currentTrack++;
   }
 
   @staticMethod
   static findById(id: string): Promise<Playlist> {
-    return <Promise<Playlist>> PlaylistModel.findOne({ $or : [{ publicId : id}, { secretId : id}] }).exec();
+    return <Promise<Playlist>> PlaylistModel.findOne(
+      { $or : [{ publicId : id}, { secretId : id}] }
+      ).populate('tracks').exec();
   }
 
   @staticMethod
   static updateByPublicId(playlist: Playlist): Promise<Playlist> {
-    return <Promise<Playlist>> PlaylistModel.findOneAndUpdate({ publicId: playlist.publicId }, playlist).exec();
+
+    return <Promise<Playlist>> PlaylistModel.findOneAndUpdate(
+      { publicId : playlist.publicId }, playlist, { new : true }
+      ).exec();
   }
 }
 
 export const PlaylistModel = new Playlist().getModelForClass(Playlist);
-
-

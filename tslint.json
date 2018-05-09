@@ -21,6 +21,17 @@
             false
         ],
         "no-string-literal": false,
+        "member-access": false,
+        "no-var-requires": false,
+        "interface-name": false,
+        "no-angle-bracket-type-assertion": false,
+        "member-ordering": false,
+        "no-trailing-whitespace": false,
+        "curly": false,
+        "no-shadowed-variable": false,
+        "arrow-parens": [false],
+        "trailing-comma": [false],
+        "ordered-imports": false,
         "triple-equals": [
             false
         ]

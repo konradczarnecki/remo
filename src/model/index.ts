@@ -1,3 +1,3 @@
-export {Playlist} from './playlist.model';
-export {Message} from './message.model';
-
+export * from './playlist.model';
+export * from './message.model';
+export * from './track.model';

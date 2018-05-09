@@ -1,13 +1,7 @@
-import * as Koa from 'koa';
-import * as ws from 'ws';
 import {Message} from '../model';
-import {Playlist} from '../model';
+import { WSContext } from '../types';
 
 import websocketService from '../service/websocket.service';
-
-export interface WSContext extends Koa.Context {
-  websocket: ws;
-}
 
 async function newListener(ctx: WSContext) {
 

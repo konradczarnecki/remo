@@ -28,6 +28,7 @@ class WebsocketService {
 
   clearListeners(publicId: string) {
     let listeners = this.listeners.get(publicId);
+    if (!listeners) return [];
     listeners = listeners.filter(listener => listener.readyState == listener.OPEN);
     this.listeners.set(publicId, listeners);
     return listeners;

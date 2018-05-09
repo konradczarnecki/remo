@@ -5,9 +5,9 @@ import playlistCtrl from '../controller/playlist.controller';
 const router = new Router();
 
 router.get('/new-playlist', playlistCtrl.newPlaylist);
-router.get('/add-track', playlistCtrl.addTrack);
+router.post('/push-track', playlistCtrl.addTrack);
 router.get('/get-playlist', playlistCtrl.getPlaylist);
-router.get('/next-track', playlistCtrl.nextTrack);
-router.get('/force-track', playlistCtrl.forceTrack);
+router.post('/next-track', playlistCtrl.nextTrack);
+router.post('/force-track', playlistCtrl.forceTrack);
 
 export default router.routes();
